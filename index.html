@@ -311,31 +311,31 @@ cv2.destroyAllWindows()</code></pre>
             <div class="card">
                 <div style="margin-bottom: 2rem;">
                     <h3 style="color: var(--accent-blue);">Import OpenCV</h3>
-                    <p style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1;">import cv2</p>
+                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">import cv2</p>
                     <p>This imports the OpenCV library.</p>
                 </div>
                 
                 <div style="margin-bottom: 2rem;">
                     <h3 style="color: var(--accent-blue);">Load Haar Cascade File</h3>
-                    <p style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1;">face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')</p>
+                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')</p>
                     <p>Loads the trained face detection model.</p>
                 </div>
 
                 <div style="margin-bottom: 2rem;">
                     <h3 style="color: var(--accent-blue);">Start Webcam</h3>
-                    <p style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1;">cap = cv2.VideoCapture(0)</p>
+                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">cap = cv2.VideoCapture(0)</p>
                     <p>Accesses the default webcam.</p>
                 </div>
 
                 <div style="margin-bottom: 2rem;">
                     <h3 style="color: var(--accent-blue);">Convert Image to Grayscale</h3>
-                    <p style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1;">gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)</p>
+                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)</p>
                     <p>Converts colored image into grayscale format for faster detection.</p>
                 </div>
 
                 <div style="margin-bottom: 2rem;">
                     <h3 style="color: var(--accent-blue);">Detect Faces</h3>
-                    <pre style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1; margin-bottom: 1rem;">faces = face_cascade.detectMultiScale(
+                    <pre style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0; margin-bottom: 1rem;">faces = face_cascade.detectMultiScale(
     gray,
     scaleFactor=1.1,
     minNeighbors=5
@@ -349,7 +349,7 @@ cv2.destroyAllWindows()</code></pre>
 
                 <div>
                     <h3 style="color: var(--accent-blue);">Draw Rectangle Around Faces</h3>
-                    <pre style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #a8b2d1; margin-bottom: 1rem;">cv2.rectangle(
+                    <pre style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0; margin-bottom: 1rem;">cv2.rectangle(
     frame,
     (x, y),
     (x+w, y+h),
