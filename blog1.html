@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Technical implementation post on building a high-performance REST API with FastAPI and Python.">
+    <title>Building APIs with FastAPI | Blog 1</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-microchip"></i> TechBlog
+            </a>
+            <div class="hamburger" id="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a></li>
+                <li><a href="#intro">1. Intro</a></li>
+                <li><a href="#setup">2. Setup</a></li>
+                <li><a href="#code">3. Code</a></li>
+                <li><a href="#benefits">5. Benefits</a></li>
+                <li><a href="#challenges">6. Challenges</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="hero" style="min-height: 50vh; align-items: flex-end; padding-bottom: 4rem;">
+        <div class="hero-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <span class="chip" style="margin-bottom: 1.5rem; display: inline-block;">Topic-Based Tech Tool Implementation Post</span>
+            <h1 class="hero-title" style="font-size: clamp(2.5rem, 4vw, 3.5rem);">Building High-Performance APIs with FastAPI</h1>
+            <p class="hero-subtitle" style="font-size: 1.2rem;">By Joseph Mathew</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Introduction -->
+        <section id="intro" class="section">
+            <h2 class="section-title">1. Introduction to the Technology</h2>
+            <div class="card">
+                <p><strong>FastAPI</strong> is a modern, highly performant web framework for building APIs with Python 3.7+ based on standard Python type hints. Released in 2018 by Sebastián Ramírez, it has quickly become one of the most popular frameworks for backend developers and data scientists.</p>
+                <p>Built on top of Starlette for the web parts and Pydantic for the data parts, FastAPI is designed to be fast (on par with Node.js and Go), intuitive to use, and extremely robust against errors. It natively supports asynchronous programming (`async`/`await`), automatic data validation, and automatic interactive documentation generation (Swagger UI and ReDoc).</p>
+            </div>
+        </section>
+
+        <!-- 2. Setup -->
+        <section id="setup" class="section">
+            <h2 class="section-title">2. Setup and Implementation Process</h2>
+            <div class="card">
+                <p>Implementing a FastAPI project involves setting up a virtual environment and installing the core dependencies. The setup process is very minimal.</p>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 1: Environment Setup</h3>
+                            <p>Create a virtual environment to manage your dependencies safely:</p>
+                            <div class="code-wrapper">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                </div>
+                                <pre><code class="language-bash">python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 2: Install FastAPI & Uvicorn</h3>
+                            <p>You need the framework itself and an ASGI server (Uvicorn) to run it:</p>
+                            <div class="code-wrapper">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                </div>
+                                <pre><code class="language-bash">pip install fastapi[all] uvicorn</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 3: Execution</h3>
+                            <p>To run the development server with auto-reloading enabled:</p>
+                            <div class="code-wrapper">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                </div>
+                                <pre><code class="language-bash">uvicorn main:app --reload</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Sample Code -->
+        <section id="code" class="section">
+            <h2 class="section-title">3. Sample Code Snippets</h2>
+            <div class="card code-card">
+                <p>Below is a fully functional implementation of a basic API that manages a list of users. It demonstrates routing, path parameters, and request body validation using Pydantic.</p>
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>main.py</span>
+                        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                    <pre><code class="language-python">from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import List, Optional
+
+# Initialize the application
+app = FastAPI(title="User Management API")
+
+# Define Data Model using Pydantic
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+    is_active: bool = True
+
+# In-memory database simulation
+users_db = []
+
+@app.get("/", tags=["Root"])
+async def root():
+    return {"message": "Welcome to the FastAPI implementation blog!"}
+
+@app.post("/users/", response_model=User, tags=["Users"], status_code=201)
+async def create_user(user: User):
+    """Creates a new user and adds them to the database."""
+    # Check if ID already exists
+    if any(u.id == user.id for u in users_db):
+        raise HTTPException(status_code=400, detail="User ID already registered")
+    
+    users_db.append(user)
+    return user
+
+@app.get("/users/", response_model=List[User], tags=["Users"])
+async def get_all_users(skip: int = 0, limit: int = 10):
+    """Retrieves a paginated list of users."""
+    return users_db[skip : skip + limit]
+
+@app.get("/users/{user_id}", response_model=User, tags=["Users"])
+async def get_user(user_id: int):
+    """Retrieves a specific user by their ID."""
+    for user in users_db:
+        if user.id == user_id:
+            return user
+    raise HTTPException(status_code=404, detail="User not found")</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Screenshots -->
+        <section id="screenshots" class="section">
+            <h2 class="section-title">4. Screenshots / Output</h2>
+            <div class="card highlight-card">
+                <p>One of FastAPI's greatest features is that it automatically generates interactive API documentation based on OpenAPI standards. When you run the server and navigate to <code>http://127.0.0.1:8000/docs</code>, you are presented with the Swagger UI:</p>
+                
+                <div style="background: #0f172a; padding: 2rem; border-radius: 8px; margin-top: 1.5rem; border: 1px solid rgba(255,255,255,0.1); color: #f8fafc; font-family: monospace;">
+                    <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
+                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></span>
+                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #eab308;"></span>
+                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></span>
+                    </div>
+                    <p style="color: #64ffda; margin-bottom: 0.5rem; font-weight: bold; font-size: 1.2rem;">Swagger UI - User Management API</p>
+                    <div style="margin-left: 1rem;">
+                        <p style="margin: 0.5rem 0;"><span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">GET</span> <span style="margin-left: 1rem;">/users/</span> - <span style="color: #94a3b8;">Get All Users</span></p>
+                        <p style="margin: 0.5rem 0;"><span style="background: #22c55e; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">POST</span> <span style="margin-left: 0.5rem;">/users/</span> - <span style="color: #94a3b8;">Create User</span></p>
+                        <p style="margin: 0.5rem 0;"><span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">GET</span> <span style="margin-left: 1rem;">/users/{user_id}</span> - <span style="color: #94a3b8;">Get User</span></p>
+                    </div>
+                    <p style="color: #94a3b8; font-style: italic; margin-top: 2rem;">[Interactive execution allowed directly from browser]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Applications & Benefits -->
+        <section id="benefits" class="section">
+            <h2 class="section-title">5. Applications and Benefits</h2>
+            <div class="grid-layout cols-2">
+                <div class="card list-card">
+                    <h3 style="color: var(--accent-blue);">Benefits</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-bolt"></i> <strong>Extremely Fast:</strong> Performance is comparable to NodeJS and Go.</li>
+                        <li><i class="fa-solid fa-bug-slash"></i> <strong>Fewer Bugs:</strong> Native type hinting reduces human-induced errors by up to 40%.</li>
+                        <li><i class="fa-solid fa-book-open"></i> <strong>Auto-Documentation:</strong> Swagger UI and ReDoc are generated instantly with zero extra code.</li>
+                        <li><i class="fa-solid fa-code-compare"></i> <strong>Async Support:</strong> Built-in support for asynchronous request handling.</li>
+                    </ul>
+                </div>
+                <div class="card list-card">
+                    <h3 style="color: var(--accent-blue);">Applications</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-server"></i> <strong>Microservices Architecture:</strong> Excellent for lightweight, decoupled services.</li>
+                        <li><i class="fa-solid fa-database"></i> <strong>Data Science & ML:</strong> Often used to deploy Machine Learning models (TensorFlow/PyTorch) as APIs.</li>
+                        <li><i class="fa-solid fa-mobile-screen"></i> <strong>Mobile App Backends:</strong> Providing rapid JSON responses to mobile applications.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Challenges -->
+        <section id="challenges" class="section">
+            <h2 class="section-title">6. Challenges Faced</h2>
+            <div class="card warning-card">
+                <div class="challenge-item">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Learning Curve for Async/Await</h4>
+                    <p>Developers coming from synchronous frameworks (like Django or Flask) may struggle initially to implement proper asynchronous database calls without blocking the event loop.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Smaller Ecosystem</h4>
+                    <p>Unlike Django, FastAPI doesn't come with built-in ORMs, authentication systems, or admin panels. These have to be manually integrated using third-party libraries like SQLAlchemy or Tortoise ORM.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Type Hinting Discipline</h4>
+                    <p>The framework heavily relies on Python type hints. Strict adherence to typing is required, which can be challenging for those used to Python's dynamic typing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. References -->
+        <section id="references" class="section">
+            <h2 class="section-title">7. References and Learning Resources</h2>
+            <div class="card">
+                <ul class="reference-list">
+                    <li><a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI Official Documentation</a> (Considered one of the best docs in the industry)</li>
+                    <li><a href="https://pydantic-docs.helpmanual.io/" target="_blank">Pydantic Official Documentation</a></li>
+                    <li><a href="https://github.com/tiangolo/fastapi" target="_blank">FastAPI GitHub Repository</a></li>
+                    <li>Ramírez, S. (2018). <em>FastAPI: High performance, easy to learn, fast to code, ready for production.</em></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 8. Future Scope -->
+        <section id="trends" class="section">
+            <h2 class="section-title">8. Technology Awareness: Current Trends & Future Scope</h2>
+            <div class="card highlight-card">
+                <p>The Python web development landscape is undergoing a massive shift from monolithic architectures (like Django) toward lightweight, highly concurrent frameworks.</p>
+                <div class="grid-layout" style="margin-top: 1.5rem;">
+                    <div class="tech-item" style="padding: 1.5rem;">
+                        <h4 style="color: var(--accent-blue);">AI & LLM Integration</h4>
+                        <p style="font-size: 0.95rem;">FastAPI has become the de-facto standard for serving Generative AI models and LLMs (like OpenAI APIs and LangChain pipelines) due to its speed.</p>
+                    </div>
+                    <div class="tech-item" style="padding: 1.5rem;">
+                        <h4 style="color: var(--accent-blue);">Serverless Deployment</h4>
+                        <p style="font-size: 0.95rem;">The trend is moving towards deploying FastAPI applications on serverless infrastructure (AWS Lambda via Mangum) for infinite scalability.</p>
+                    </div>
+                    <div class="tech-item" style="padding: 1.5rem;">
+                        <h4 style="color: var(--accent-blue);">WebSockets</h4>
+                        <p style="font-size: 0.95rem;">Future web apps rely heavily on real-time data. FastAPI's native WebSocket support makes it future-proof for real-time dashboards and chat apps.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-microchip"></i> TechBlog
+            </div>
+            <p>Developed by Joseph Mathew</p>
+            <div class="social-links">
+                <a href="https://github.com/josephmathew18" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/joseph-mathew-31b78238a" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Joseph Mathew. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

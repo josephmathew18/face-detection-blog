@@ -3,524 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A comprehensive guide to building a Face Detection System using OpenCV and Python by Joseph Mathew.">
-    <title>Face Detection System using OpenCV and Python</title>
+    <meta name="description" content="Technical Blog Portal by Joseph Mathew featuring in-depth technology implementation guides.">
+    <title>Tech Blog Portal | By Joseph Mathew</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Prism.js for code highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-microchip"></i> FaceDetect
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-microchip"></i> TechBlog
             </a>
             <div class="hamburger" id="hamburger">
                 <i class="fa-solid fa-bars"></i>
             </div>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#introduction">Intro</a></li>
-                <li><a href="#opencv">OpenCV</a></li>
-                <li><a href="#haar">Haar Cascade</a></li>
-                <li><a href="#code">Code</a></li>
-                <li><a href="#applications">Applications</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#posts">Latest Posts</a></li>
             </ul>
         </div>
     </nav>
 
-    <header id="home" class="hero">
-        <div class="hero-content">
+    <header id="home" class="hero" style="min-height: 60vh; text-align: center; flex-direction: column; justify-content: center; gap: 2rem;">
+        <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
             <p class="hero-author" style="color: var(--accent-blue); font-weight: 600; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 1rem; text-transform: uppercase;">By Joseph Mathew</p>
-            <h1 class="hero-title">Face Detection System</h1>
-            <p class="hero-subtitle">using OpenCV and Python</p>
-            <p class="hero-description">A Real-Time Face Detection System capturing live video from a webcam, detecting faces using the Haar Cascade algorithm, and drawing rectangles around detected faces instantly.</p>
-            <a href="#introduction" class="btn btn-primary">Explore Project <i class="fa-solid fa-arrow-down"></i></a>
-        </div>
-        <div class="hero-image-container">
-            <img src="banner.png" alt="Face Detection System Banner" class="hero-image">
-            <div class="glass-overlay"></div>
+            <h1 class="hero-title" style="font-size: clamp(2.5rem, 4vw, 4rem);">Technical Implementation Blogs</h1>
+            <p class="hero-description" style="margin: 0 auto 2.5rem; max-width: 600px;">A showcase of detailed technology implementations, setup guides, and practical computer science projects.</p>
+            <a href="#posts" class="btn btn-primary">View Articles <i class="fa-solid fa-arrow-down"></i></a>
         </div>
     </header>
 
-    <main class="container">
-        <!-- 1. Introduction -->
-        <section id="introduction" class="section">
-            <h2 class="section-title">Introduction</h2>
-            <div class="card">
-                <p>Computer Vision is one of the fastest-growing fields in Artificial Intelligence. It enables computers to understand and process digital images and videos similar to human vision. One of the most important applications of computer vision is Face Detection.</p>
-                <p>Face detection technology is widely used in smartphones, security systems, attendance monitoring, surveillance cameras, biometric authentication, and social media applications. It helps identify human faces in images or video streams in real time.</p>
-                <p>This project demonstrates a Real-Time Face Detection System using Python and the OpenCV library. The system captures live video from a webcam, detects faces using the Haar Cascade algorithm, and draws rectangles around detected faces instantly.</p>
-            </div>
-        </section>
-
-        <!-- 2. Objectives -->
-        <section id="objectives" class="section">
-            <h2 class="section-title">Objectives of the Project</h2>
+    <main class="container" id="posts">
+        <section class="section" style="padding-top: 2rem;">
+            <h2 class="section-title">Latest Posts</h2>
             <div class="grid-layout cols-2">
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-brain objective-icon"></i>
-                    <h3>Understand Basics</h3>
-                    <p>Understand the basics of face detection technology.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-bolt objective-icon"></i>
-                    <h3>Real-Time Processing</h3>
-                    <p>Learn real-time image processing.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-code objective-icon"></i>
-                    <h3>Implementation</h3>
-                    <p>Implement face detection using OpenCV.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-magnifying-glass objective-icon"></i>
-                    <h3>Algorithm Study</h3>
-                    <p>Explore Haar Cascade Classifier.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-brands fa-python objective-icon"></i>
-                    <h3>Python Skills</h3>
-                    <p>Improve Python programming skills.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-robot objective-icon"></i>
-                    <h3>AI Applications</h3>
-                    <p>Study applications of computer vision in AI systems.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. About OpenCV -->
-        <section id="opencv" class="section">
-            <h2 class="section-title">About OpenCV</h2>
-            <div class="card">
-                <p>OpenCV is an open-source computer vision and machine learning library. It contains hundreds of optimized algorithms for image processing, object detection, video analysis, and facial recognition.</p>
-                <p>OpenCV supports multiple programming languages such as Python, C++, and Java. It is widely used in AI research, robotics, automation, medical imaging, and security applications.</p>
-                
-                <h3 style="margin-top: 2rem; color: var(--accent-blue);">Features of OpenCV</h3>
-                <ul style="list-style-type: disc; margin-left: 2rem; color: var(--text-secondary); line-height: 1.8;">
-                    <li>Real-time image processing</li>
-                    <li>Object and face detection</li>
-                    <li>Motion tracking</li>
-                    <li>Image filtering and enhancement</li>
-                    <li>Machine learning support</li>
-                    <li>Cross-platform compatibility</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- 4. What is Haar Cascade? -->
-        <section id="haar" class="section">
-            <h2 class="section-title">What is Haar Cascade?</h2>
-            <div class="card">
-                <p>Haar Cascade Classifier is a machine learning-based object detection algorithm used to identify objects in images and videos.</p>
-                <p>The Haar Cascade model is trained using many positive and negative images:</p>
-                <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem; color: var(--text-secondary);">
-                    <li><strong>Positive images</strong> contain faces</li>
-                    <li><strong>Negative images</strong> do not contain faces</li>
-                </ul>
-                <p>The algorithm detects facial features such as:</p>
-                <div class="chips-container" style="margin-bottom: 1.5rem;">
-                    <span class="chip">Eyes</span>
-                    <span class="chip">Nose</span>
-                    <span class="chip">Mouth</span>
-                    <span class="chip">Edges of the face</span>
-                </div>
-                <p>It is fast, lightweight, and suitable for real-time face detection applications.</p>
-            </div>
-        </section>
-
-        <!-- 5. Technologies Used -->
-        <section id="technologies" class="section">
-            <h2 class="section-title">Technologies Used</h2>
-            <div class="tech-stack">
-                <div class="tech-item">
-                    <i class="fa-brands fa-python"></i>
-                    <h4>Python</h4>
-                    <p>Programming language</p>
-                </div>
-                <div class="tech-item">
-                    <i class="fa-solid fa-eye"></i>
-                    <h4>OpenCV</h4>
-                    <p>Face detection and image processing</p>
-                </div>
-                <div class="tech-item">
-                    <i class="fa-solid fa-code"></i>
-                    <h4>VS Code</h4>
-                    <p>Development environment</p>
-                </div>
-                <div class="tech-item">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <h4>Haar Cascade</h4>
-                    <p>Face detection model</p>
-                </div>
-                <div class="tech-item">
-                    <i class="fa-solid fa-camera"></i>
-                    <h4>Webcam</h4>
-                    <p>Live video input</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. System Requirements -->
-        <section id="requirements" class="section">
-            <h2 class="section-title">System Requirements</h2>
-            <div class="grid-layout cols-2">
-                <div class="card">
-                    <h3 style="color: var(--accent-blue);"><i class="fa-solid fa-desktop"></i> Hardware Requirements</h3>
-                    <ul style="list-style-type: none; padding: 0; line-height: 2;">
-                        <li><i class="fa-solid fa-microchip" style="color: var(--text-tertiary); width: 25px;"></i> <strong>Processor:</strong> Intel i3 or above</li>
-                        <li><i class="fa-solid fa-memory" style="color: var(--text-tertiary); width: 25px;"></i> <strong>RAM:</strong> Minimum 4GB</li>
-                        <li><i class="fa-solid fa-camera" style="color: var(--text-tertiary); width: 25px;"></i> <strong>Webcam</strong></li>
-                        <li><i class="fa-solid fa-tv" style="color: var(--text-tertiary); width: 25px;"></i> <strong>Monitor</strong></li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3 style="color: var(--accent-blue);"><i class="fa-solid fa-laptop-code"></i> Software Requirements</h3>
-                    <ul style="list-style-type: none; padding: 0; line-height: 2;">
-                        <li><i class="fa-brands fa-python" style="color: var(--text-tertiary); width: 25px;"></i> <strong>Python 3.x</strong></li>
-                        <li><i class="fa-solid fa-book" style="color: var(--text-tertiary); width: 25px;"></i> <strong>OpenCV Library</strong></li>
-                        <li><i class="fa-solid fa-file-code" style="color: var(--text-tertiary); width: 25px;"></i> <strong>VS Code or PyCharm</strong></li>
-                        <li><i class="fa-brands fa-windows" style="color: var(--text-tertiary); width: 25px;"></i> <strong>Windows/Linux/MacOS</strong></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Installation Process -->
-        <section id="installation" class="section">
-            <h2 class="section-title">Installation Process</h2>
-            <div class="card">
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 1: Install Python</h3>
-                            <p>Download and install Python from the <a href="https://www.python.org/" target="_blank">Python Official Website</a>.</p>
-                            <p>Check installation:</p>
-                            <div class="code-wrapper">
-                                <div class="code-header">
-                                    <span>Terminal</span>
-                                    <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
-                                </div>
-                                <pre><code class="language-bash">python --version</code></pre>
-                            </div>
-                        </div>
+                <!-- Blog 1 Card -->
+                <a href="blog1.html" class="card interactive-card" style="display: block; text-decoration: none; color: inherit;">
+                    <div style="background: var(--bg-dark); height: 200px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                        <i class="fa-solid fa-server" style="font-size: 5rem; color: var(--accent-blue);"></i>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 2: Install OpenCV</h3>
-                            <p>Open Command Prompt or Terminal and type:</p>
-                            <div class="code-wrapper">
-                                <div class="code-header">
-                                    <span>Terminal</span>
-                                    <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
-                                </div>
-                                <pre><code class="language-bash">pip install opencv-python</code></pre>
-                            </div>
-                        </div>
+                    <span class="chip" style="margin-bottom: 1rem; display: inline-block;">Blog 1</span>
+                    <h3 style="color: var(--text-primary); font-size: 1.5rem; margin-bottom: 1rem;">Building a High-Performance API with FastAPI</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">A comprehensive guide to setting up and implementing a modern RESTful API using Python and the FastAPI framework.</p>
+                    <span style="color: var(--accent-blue); font-weight: 500;">Read Full Post <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
+
+                <!-- Blog 2 Card -->
+                <a href="blog2.html" class="card interactive-card" style="display: block; text-decoration: none; color: inherit;">
+                    <div style="background: var(--bg-dark); height: 200px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                        <img src="banner.png" alt="Face Detection" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 3: Download Haar Cascade File</h3>
-                            <p>Download the Haar Cascade XML file from <a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank">OpenCV Haar Cascade Files</a>.</p>
-                            <p>Save <code>haarcascade_frontalface_default.xml</code> inside your project folder.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8. Working Principle -->
-        <section id="working-principle" class="section">
-            <h2 class="section-title">Working Principle of the System</h2>
-            <div class="card highlight-card">
-                <p>The Face Detection System works in the following steps:</p>
-                <ol style="margin-left: 2rem; color: var(--text-primary); line-height: 1.8; margin-bottom: 1.5rem; font-weight: 500;">
-                    <li>Capture live video using webcam</li>
-                    <li>Convert video frame into grayscale image</li>
-                    <li>Apply Haar Cascade classifier</li>
-                    <li>Detect human faces</li>
-                    <li>Draw rectangles around detected faces</li>
-                    <li>Display output in real time</li>
-                </ol>
-                <p style="margin-bottom: 0;"><em>Note: The grayscale conversion improves processing speed because face detection algorithms work more efficiently on grayscale images than colored images.</em></p>
-            </div>
-        </section>
-
-        <!-- 9. Python Code -->
-        <section id="code" class="section">
-            <h2 class="section-title">Python Code</h2>
-            <div class="card code-card">
-                <div class="code-wrapper">
-                    <div class="code-header">
-                        <span>face_detection.py</span>
-                        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
-                    </div>
-                    <pre><code class="language-python">import cv2
-
-face_cascade = cv2.CascadeClassifier(
-    'haarcascade_frontalface_default.xml'
-)
-
-cap = cv2.VideoCapture(0)
-
-while True:
-
-    ret, frame = cap.read()
-
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    faces = face_cascade.detectMultiScale(
-        gray,
-        scaleFactor=1.1,
-        minNeighbors=5
-    )
-
-    for (x, y, w, h) in faces:
-
-        cv2.rectangle(
-            frame,
-            (x, y),
-            (x+w, y+h),
-            (255,0,0),
-            2
-        )
-
-    cv2.imshow('Face Detection', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. Explanation of the Code -->
-        <section id="explanation" class="section">
-            <h2 class="section-title">Explanation of the Code</h2>
-            <div class="card">
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--accent-blue);">Import OpenCV</h3>
-                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">import cv2</p>
-                    <p>This imports the OpenCV library.</p>
-                </div>
-                
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--accent-blue);">Load Haar Cascade File</h3>
-                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')</p>
-                    <p>Loads the trained face detection model.</p>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--accent-blue);">Start Webcam</h3>
-                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">cap = cv2.VideoCapture(0)</p>
-                    <p>Accesses the default webcam.</p>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--accent-blue);">Convert Image to Grayscale</h3>
-                    <p style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0;">gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)</p>
-                    <p>Converts colored image into grayscale format for faster detection.</p>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--accent-blue);">Detect Faces</h3>
-                    <pre style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0; margin-bottom: 1rem;">faces = face_cascade.detectMultiScale(
-    gray,
-    scaleFactor=1.1,
-    minNeighbors=5
-)</pre>
-                    <p><strong>Parameters:</strong></p>
-                    <ul style="list-style: none; color: var(--text-secondary);">
-                        <li><strong style="color: var(--text-primary);">scaleFactor</strong> → reduces image size at each scale</li>
-                        <li><strong style="color: var(--text-primary);">minNeighbors</strong> → improves detection accuracy</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 style="color: var(--accent-blue);">Draw Rectangle Around Faces</h3>
-                    <pre style="background: #0f172a; padding: 0.5rem; border-radius: 4px; font-family: monospace; color: #e2e8f0; margin-bottom: 1rem;">cv2.rectangle(
-    frame,
-    (x, y),
-    (x+w, y+h),
-    (255,0,0),
-    2
-)</pre>
-                    <p>Draws a blue rectangle around detected faces.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 11. Output -->
-        <section id="output" class="section">
-            <h2 class="section-title">Output</h2>
-            <div class="card">
-                <p>When the program runs:</p>
-                <ul style="list-style-type: disc; margin-left: 2rem; color: var(--text-primary); line-height: 1.8;">
-                    <li>Webcam opens automatically</li>
-                    <li>Human faces are detected in real time</li>
-                    <li>Rectangles appear around detected faces</li>
-                    <li>Press Q to exit the application</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- 12. Applications -->
-        <section id="applications" class="section">
-            <h2 class="section-title">Applications</h2>
-            <div class="grid-layout">
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-shield-halved objective-icon"></i>
-                    <h3>Security Systems</h3>
-                    <p>Used in surveillance cameras and smart security systems.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-mobile-screen objective-icon"></i>
-                    <h3>Face Unlock Systems</h3>
-                    <p>Used in smartphones and laptops for biometric authentication.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-users objective-icon"></i>
-                    <h3>Attendance Monitoring</h3>
-                    <p>Automatic attendance systems in schools and offices.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-camera objective-icon"></i>
-                    <h3>Smart Cameras</h3>
-                    <p>Used in AI-powered cameras for autofocus and tracking.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-masks-theater objective-icon"></i>
-                    <h3>Social Media Filters</h3>
-                    <p>Applications like Snapchat and Instagram use face detection for filters and effects.</p>
-                </div>
-                <div class="card interactive-card">
-                    <i class="fa-solid fa-notes-medical objective-icon"></i>
-                    <h3>Healthcare</h3>
-                    <p>Used in patient monitoring and emotion analysis systems.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 13. Advantages of the System -->
-        <section id="advantages" class="section">
-            <h2 class="section-title">Advantages of the System</h2>
-            <div class="grid-layout cols-2">
-                <div class="card list-card">
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Real-time face detection</li>
-                        <li><i class="fa-solid fa-check"></i> Fast and efficient processing</li>
-                        <li><i class="fa-solid fa-check"></i> Easy to implement</li>
-                    </ul>
-                </div>
-                <div class="card list-card">
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Open-source technology</li>
-                        <li><i class="fa-solid fa-check"></i> Works with standard webcams</li>
-                        <li><i class="fa-solid fa-check"></i> Useful in multiple AI applications</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 14. Challenges Faced -->
-        <section id="challenges" class="section">
-            <h2 class="section-title">Challenges Faced</h2>
-            <div class="card warning-card">
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Poor Lighting Conditions</h4>
-                    <p>Low light reduces detection accuracy.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Webcam Permission Errors</h4>
-                    <p>Camera access may be blocked by the operating system.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> False Detection</h4>
-                    <p>Objects similar to facial patterns may be detected as faces.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Performance Issues</h4>
-                    <p>Older computers may process frames slowly.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Multiple Face Handling</h4>
-                    <p>Detecting many faces simultaneously may reduce performance.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 15. Future Scope -->
-        <section id="future-scope" class="section">
-            <h2 class="section-title">Future Scope</h2>
-            <div class="card">
-                <p>Future face detection systems may include:</p>
-                <div class="grid-layout" style="margin-top: 1.5rem;">
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">Emotion Detection</h4>
-                        <p style="font-size: 0.95rem;">Detect emotions like happiness, sadness, and anger.</p>
-                    </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">Deep Learning</h4>
-                        <p style="font-size: 0.95rem;">Using CNN and AI models for higher accuracy.</p>
-                    </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">3D Face Analysis</h4>
-                        <p style="font-size: 0.95rem;">Advanced facial mapping for AR and VR applications.</p>
-                    </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">AI Surveillance</h4>
-                        <p style="font-size: 0.95rem;">Smart monitoring systems with automatic alerts.</p>
-                    </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">Face Recognition</h4>
-                        <p style="font-size: 0.95rem;">Identifying specific persons instead of only detecting faces.</p>
-                    </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">Mask Detection</h4>
-                        <p style="font-size: 0.95rem;">Used in healthcare and public safety monitoring.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 16. Conclusion -->
-        <section id="conclusion" class="section">
-            <h2 class="section-title">Conclusion</h2>
-            <div class="card highlight-card">
-                <p>This project successfully implemented a real-time Face Detection System using Python and OpenCV. The system detects human faces through a webcam using the Haar Cascade algorithm.</p>
-                <p>The project improved understanding of:</p>
-                <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem; color: var(--text-primary);">
-                    <li>Computer vision</li>
-                    <li>Image processing</li>
-                    <li>Artificial Intelligence</li>
-                    <li>OpenCV implementation</li>
-                    <li>Real-time video processing</li>
-                </ul>
-                <p>This project also demonstrates how AI technologies can be used in real-world applications such as security, surveillance, attendance systems, and smart devices.</p>
-            </div>
-        </section>
-
-        <!-- 17. References -->
-        <section id="references" class="section">
-            <h2 class="section-title">References</h2>
-            <div class="card">
-                <ul class="reference-list">
-                    <li><a href="https://opencv.org/" target="_blank">OpenCV Official Website</a></li>
-                    <li><a href="https://docs.opencv.org/" target="_blank">OpenCV Documentation</a></li>
-                    <li><a href="https://docs.python.org/3/" target="_blank">Python Documentation</a></li>
-                    <li><a href="https://github.com/opencv/opencv" target="_blank">OpenCV GitHub Repository</a></li>
-                </ul>
+                    <span class="chip" style="margin-bottom: 1rem; display: inline-block;">Blog 2</span>
+                    <h3 style="color: var(--text-primary); font-size: 1.5rem; margin-bottom: 1rem;">Face Detection System using OpenCV</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">A practical implementation of the Viola-Jones algorithm to track and detect human faces in real-time video streams.</p>
+                    <span style="color: var(--accent-blue); font-weight: 500;">Read Full Post <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
             </div>
         </section>
     </main>
@@ -528,7 +68,7 @@ cv2.destroyAllWindows()</code></pre>
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <i class="fa-solid fa-microchip"></i> FaceDetect
+                <i class="fa-solid fa-microchip"></i> TechBlog
             </div>
             <p>Developed by Joseph Mathew</p>
             <div class="social-links">
@@ -541,11 +81,6 @@ cv2.destroyAllWindows()</code></pre>
         </div>
     </footer>
 
-    <!-- Prism.js for code highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-    <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
 </html>
