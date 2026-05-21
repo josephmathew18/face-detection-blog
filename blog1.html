@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Technical implementation post on building a high-performance REST API with FastAPI and Python.">
-    <title>Building APIs with FastAPI | Blog 1</title>
+    <meta name="description" content="Face Detection System using OpenCV and Python">
+    <title>Face Detection with OpenCV | Blog 1</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -25,10 +25,9 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a></li>
                 <li><a href="#intro">1. Intro</a></li>
-                <li><a href="#setup">2. Setup</a></li>
-                <li><a href="#code">3. Code</a></li>
-                <li><a href="#benefits">4. Benefits</a></li>
-                <li><a href="#challenges">5. Challenges</a></li>
+                <li><a href="#setup">4. Setup</a></li>
+                <li><a href="#code">5. Code</a></li>
+                <li><a href="#benefits">8. Benefits</a></li>
             </ul>
         </div>
     </nav>
@@ -36,7 +35,7 @@
     <header id="home" class="hero" style="min-height: 50vh; align-items: flex-end; padding-bottom: 4rem;">
         <div class="hero-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
             <span class="chip" style="margin-bottom: 1.5rem; display: inline-block;">Topic-Based Tech Tool Implementation Post</span>
-            <h1 class="hero-title" style="font-size: clamp(2.5rem, 4vw, 3.5rem);">Building High-Performance APIs with FastAPI</h1>
+            <h1 class="hero-title" style="font-size: clamp(2.5rem, 4vw, 3.5rem);">Face Detection System using OpenCV and Python</h1>
             <p class="hero-subtitle" style="font-size: 1.2rem;">By Joseph Mathew</p>
         </div>
     </header>
@@ -46,216 +45,324 @@
         <section id="intro" class="section">
             <h2 class="section-title">1. Introduction to the Technology</h2>
             <div class="card">
-                <p><strong>FastAPI</strong> is a modern, highly performant web framework for building APIs with Python 3.7+ based on standard Python type hints. Released in 2018 by Sebastián Ramírez, it has quickly become one of the most popular frameworks for backend developers and data scientists.</p>
-                <p>Built on top of Starlette for the web parts and Pydantic for the data parts, FastAPI is designed to be fast (on par with Node.js and Go), intuitive to use, and extremely robust against errors. It natively supports asynchronous programming (`async`/`await`), automatic data validation, and automatic interactive documentation generation (Swagger UI and ReDoc).</p>
+                <p>OpenCV is an open-source computer vision and machine learning library used for image processing, object detection, and real-time video analysis. It supports multiple programming languages including Python, Java, and C++.</p>
+                <p>A Face Detection System is a computer vision application that identifies and locates human faces in digital images or live video streams. Face detection is widely used in security systems, smartphones, attendance systems, AI surveillance, and biometric authentication.</p>
+                <p>This project demonstrates a real-time face detection system using Python and OpenCV. The system captures video from a webcam and detects faces using the Haar Cascade algorithm.</p>
             </div>
         </section>
 
-        <!-- 2. Setup -->
-        <section id="setup" class="section">
-            <h2 class="section-title">2. Setup and Implementation Process</h2>
-            <div class="card">
-                <p>Implementing a FastAPI project involves setting up a virtual environment and installing the core dependencies. The setup process is very minimal.</p>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 1: Environment Setup</h3>
-                            <p>Create a virtual environment to manage your dependencies safely:</p>
-                            <div class="code-wrapper">
-                                <div class="code-header">
-                                    <span>Terminal</span>
-                                </div>
-                                <pre><code class="language-bash">python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 2: Install FastAPI & Uvicorn</h3>
-                            <p>You need the framework itself and an ASGI server (Uvicorn) to run it:</p>
-                            <div class="code-wrapper">
-                                <div class="code-header">
-                                    <span>Terminal</span>
-                                </div>
-                                <pre><code class="language-bash">pip install fastapi[all] uvicorn</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Step 3: Execution</h3>
-                            <p>To run the development server with auto-reloading enabled:</p>
-                            <div class="code-wrapper">
-                                <div class="code-header">
-                                    <span>Terminal</span>
-                                </div>
-                                <pre><code class="language-bash">uvicorn main:app --reload</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Sample Code -->
-        <section id="code" class="section">
-            <h2 class="section-title">3. Sample Code Snippets</h2>
-            <div class="card code-card">
-                <p>Below is a fully functional implementation of a basic API that manages a list of users. It demonstrates routing, path parameters, and request body validation using Pydantic.</p>
-                <div class="code-wrapper">
-                    <div class="code-header">
-                        <span>main.py</span>
-                        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
-                    </div>
-                    <pre><code class="language-python">from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List, Optional
-
-# Initialize the application
-app = FastAPI(title="User Management API")
-
-# Define Data Model using Pydantic
-class User(BaseModel):
-    id: int
-    name: str
-    email: str
-    is_active: bool = True
-
-# In-memory database simulation
-users_db = []
-
-@app.get("/", tags=["Root"])
-async def root():
-    return {"message": "Welcome to the FastAPI implementation blog!"}
-
-@app.post("/users/", response_model=User, tags=["Users"], status_code=201)
-async def create_user(user: User):
-    """Creates a new user and adds them to the database."""
-    # Check if ID already exists
-    if any(u.id == user.id for u in users_db):
-        raise HTTPException(status_code=400, detail="User ID already registered")
-    
-    users_db.append(user)
-    return user
-
-@app.get("/users/", response_model=List[User], tags=["Users"])
-async def get_all_users(skip: int = 0, limit: int = 10):
-    """Retrieves a paginated list of users."""
-    return users_db[skip : skip + limit]
-
-@app.get("/users/{user_id}", response_model=User, tags=["Users"])
-async def get_user(user_id: int):
-    """Retrieves a specific user by their ID."""
-    for user in users_db:
-        if user.id == user_id:
-            return user
-    raise HTTPException(status_code=404, detail="User not found")</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Screenshots -->
-        <section id="screenshots" class="section">
-            <h2 class="section-title">Screenshots / Output</h2>
-            <div class="card highlight-card">
-                <p>One of FastAPI's greatest features is that it automatically generates interactive API documentation based on OpenAPI standards. When you run the server and navigate to <code>http://127.0.0.1:8000/docs</code>, you are presented with the Swagger UI:</p>
-                
-                <div style="background: #0f172a; padding: 2rem; border-radius: 8px; margin-top: 1.5rem; border: 1px solid rgba(255,255,255,0.1); color: #f8fafc; font-family: monospace;">
-                    <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
-                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></span>
-                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #eab308;"></span>
-                        <span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></span>
-                    </div>
-                    <p style="color: #64ffda; margin-bottom: 0.5rem; font-weight: bold; font-size: 1.2rem;">Swagger UI - User Management API</p>
-                    <div style="margin-left: 1rem;">
-                        <p style="margin: 0.5rem 0;"><span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">GET</span> <span style="margin-left: 1rem;">/users/</span> - <span style="color: #94a3b8;">Get All Users</span></p>
-                        <p style="margin: 0.5rem 0;"><span style="background: #22c55e; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">POST</span> <span style="margin-left: 0.5rem;">/users/</span> - <span style="color: #94a3b8;">Create User</span></p>
-                        <p style="margin: 0.5rem 0;"><span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">GET</span> <span style="margin-left: 1rem;">/users/{user_id}</span> - <span style="color: #94a3b8;">Get User</span></p>
-                    </div>
-                    <p style="color: #94a3b8; font-style: italic; margin-top: 2rem;">[Interactive execution allowed directly from browser]</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Applications & Benefits -->
-        <section id="benefits" class="section">
-            <h2 class="section-title">4. Applications and Benefits</h2>
-            <div class="grid-layout cols-2">
-                <div class="card list-card">
-                    <h3 style="color: var(--accent-blue);">Benefits</h3>
-                    <ul>
-                        <li><i class="fa-solid fa-bolt"></i> <strong>Extremely Fast:</strong> Performance is comparable to NodeJS and Go.</li>
-                        <li><i class="fa-solid fa-bug-slash"></i> <strong>Fewer Bugs:</strong> Native type hinting reduces human-induced errors by up to 40%.</li>
-                        <li><i class="fa-solid fa-book-open"></i> <strong>Auto-Documentation:</strong> Swagger UI and ReDoc are generated instantly with zero extra code.</li>
-                        <li><i class="fa-solid fa-code-compare"></i> <strong>Async Support:</strong> Built-in support for asynchronous request handling.</li>
-                    </ul>
-                </div>
-                <div class="card list-card">
-                    <h3 style="color: var(--accent-blue);">Applications</h3>
-                    <ul>
-                        <li><i class="fa-solid fa-server"></i> <strong>Microservices Architecture:</strong> Excellent for lightweight, decoupled services.</li>
-                        <li><i class="fa-solid fa-database"></i> <strong>Data Science & ML:</strong> Often used to deploy Machine Learning models (TensorFlow/PyTorch) as APIs.</li>
-                        <li><i class="fa-solid fa-mobile-screen"></i> <strong>Mobile App Backends:</strong> Providing rapid JSON responses to mobile applications.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. Challenges -->
-        <section id="challenges" class="section">
-            <h2 class="section-title">5. Challenges Faced</h2>
-            <div class="card warning-card">
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Learning Curve for Async/Await</h4>
-                    <p>Developers coming from synchronous frameworks (like Django or Flask) may struggle initially to implement proper asynchronous database calls without blocking the event loop.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Smaller Ecosystem</h4>
-                    <p>Unlike Django, FastAPI doesn't come with built-in ORMs, authentication systems, or admin panels. These have to be manually integrated using third-party libraries like SQLAlchemy or Tortoise ORM.</p>
-                </div>
-                <div class="challenge-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Type Hinting Discipline</h4>
-                    <p>The framework heavily relies on Python type hints. Strict adherence to typing is required, which can be challenging for those used to Python's dynamic typing.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. References -->
-        <section id="references" class="section">
-            <h2 class="section-title">7. References and Learning Resources</h2>
-            <div class="card">
-                <ul class="reference-list">
-                    <li><a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI Official Documentation</a> (Considered one of the best docs in the industry)</li>
-                    <li><a href="https://pydantic-docs.helpmanual.io/" target="_blank">Pydantic Official Documentation</a></li>
-                    <li><a href="https://github.com/tiangolo/fastapi" target="_blank">FastAPI GitHub Repository</a></li>
-                    <li>Ramírez, S. (2018). <em>FastAPI: High performance, easy to learn, fast to code, ready for production.</em></li>
+        <!-- 2. Objectives -->
+        <section id="objectives" class="section">
+            <h2 class="section-title">2. Objectives of the Project</h2>
+            <div class="card list-card">
+                <ul>
+                    <li>Understand the basics of computer vision</li>
+                    <li>Learn face detection using OpenCV</li>
+                    <li>Implement real-time webcam face detection</li>
+                    <li>Improve Python programming skills</li>
+                    <li>Explore artificial intelligence applications</li>
                 </ul>
             </div>
         </section>
 
-        <!-- 8. Future Scope -->
-        <section id="trends" class="section">
-            <h2 class="section-title">8. Technology Awareness: Current Trends & Future Scope</h2>
-            <div class="card highlight-card">
-                <p>The Python web development landscape is undergoing a massive shift from monolithic architectures (like Django) toward lightweight, highly concurrent frameworks.</p>
-                <div class="grid-layout" style="margin-top: 1.5rem;">
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">AI & LLM Integration</h4>
-                        <p style="font-size: 0.95rem;">FastAPI has become the de-facto standard for serving Generative AI models and LLMs (like OpenAI APIs and LangChain pipelines) due to its speed.</p>
+        <!-- 3. Technologies -->
+        <section id="tech" class="section">
+            <h2 class="section-title">3. Technologies Used</h2>
+            <div class="card">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; margin-top: 1rem;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-color); color: var(--accent-blue);">
+                            <th style="padding: 1rem;">Technology</th>
+                            <th style="padding: 1rem;">Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Python</td>
+                            <td style="padding: 1rem;">Programming Language</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">OpenCV</td>
+                            <td style="padding: 1rem;">Image Processing & Face Detection</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Haar Cascade</td>
+                            <td style="padding: 1rem;">Face Detection Algorithm</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">VS Code</td>
+                            <td style="padding: 1rem;">Development Environment</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">Webcam</td>
+                            <td style="padding: 1rem;">Live Video Input</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. Setup -->
+        <section id="setup" class="section">
+            <h2 class="section-title">4. Setup and Implementation Process</h2>
+            <div class="card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 1: Install Python</h3>
+                            <p>Download and install Python from: <a href="https://www.python.org/" target="_blank">Python Official Website</a></p>
+                            <p>Check installation:</p>
+                            <div class="code-wrapper">
+                                <pre><code class="language-bash">python --version</code></pre>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">Serverless Deployment</h4>
-                        <p style="font-size: 0.95rem;">The trend is moving towards deploying FastAPI applications on serverless infrastructure (AWS Lambda via Mangum) for infinite scalability.</p>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 2: Install OpenCV</h3>
+                            <p>Open Command Prompt and type:</p>
+                            <div class="code-wrapper">
+                                <pre><code class="language-bash">pip install opencv-python</code></pre>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tech-item" style="padding: 1.5rem;">
-                        <h4 style="color: var(--accent-blue);">WebSockets</h4>
-                        <p style="font-size: 0.95rem;">Future web apps rely heavily on real-time data. FastAPI's native WebSocket support makes it future-proof for real-time dashboards and chat apps.</p>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 3: Download Haar Cascade XML File</h3>
+                            <p>Download: <code>haarcascade_frontalface_default.xml</code> from: <a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank">OpenCV Haar Cascade Repository</a></p>
+                            <p>Place the file inside the project folder.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Step 4: Create Python File</h3>
+                            <p>Create a file named: <code>face_detection.py</code></p>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- 5. Sample Code -->
+        <section id="code" class="section">
+            <h2 class="section-title">5. Sample Code Snippets</h2>
+            <div class="card code-card">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>face_detection.py</span>
+                        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                    <pre><code class="language-python">import cv2
+
+# Load Haar Cascade Classifier
+face_cascade = cv2.CascadeClassifier(
+    'haarcascade_frontalface_default.xml'
+)
+
+# Start Webcam
+cap = cv2.VideoCapture(0)
+
+while True:
+
+    # Read Frame
+    ret, frame = cap.read()
+
+    # Convert to Grayscale
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Detect Faces
+    faces = face_cascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5
+    )
+
+    # Draw Rectangle Around Faces
+    for (x, y, w, h) in faces:
+
+        cv2.rectangle(
+            frame,
+            (x, y),
+            (x+w, y+h),
+            (255, 0, 0),
+            2
+        )
+
+    # Display Output
+    cv2.imshow('Face Detection', frame)
+
+    # Exit on Q Key
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Working Principle -->
+        <section id="working" class="section">
+            <h2 class="section-title">6. Working Principle</h2>
+            <div class="card list-card">
+                <p>The system works using the following steps:</p>
+                <ol style="margin-left: 1.5rem; margin-top: 1rem; margin-bottom: 1.5rem;">
+                    <li>Webcam captures live video</li>
+                    <li>Video frames are converted into grayscale</li>
+                    <li>Haar Cascade algorithm scans the frame</li>
+                    <li>Human faces are detected</li>
+                    <li>Blue rectangles are drawn around detected faces</li>
+                    <li>Output is displayed in real time</li>
+                </ol>
+                <p>The grayscale image improves performance because face detection algorithms process grayscale images faster than colored images.</p>
+            </div>
+        </section>
+
+        <!-- 7. Screenshots -->
+        <section id="screenshots" class="section">
+            <h2 class="section-title">7. Screenshots / Output</h2>
+            <div class="card">
+                <h3>Output Description</h3>
+                <p>When the program compiles and runs successfully, the following output is achieved:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem; margin-bottom: 1.5rem;">
+                    <li>A window titled "Face Detection" opens displaying the live webcam feed.</li>
+                    <li>Faces looking towards the camera are instantly recognized.</li>
+                    <li>A blue rectangle tracks the face movement in real time.</li>
+                    <li>Multiple faces can also be detected simultaneously.</li>
+                </ul>
+                <h3>Sample Output Images</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                    <div style="background: var(--bg-dark); border-radius: var(--border-radius); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); aspect-ratio: 4/3;">
+                        <img src="op1.jpg" alt="Output 1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="background: var(--bg-dark); border-radius: var(--border-radius); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); aspect-ratio: 4/3;">
+                        <img src="op2.jpg" alt="Output 2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="background: var(--bg-dark); border-radius: var(--border-radius); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); aspect-ratio: 4/3;">
+                        <img src="op3.jpg" alt="Output 3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Applications and Benefits -->
+        <section id="benefits" class="section">
+            <h2 class="section-title">8. Applications and Benefits</h2>
+            <div class="grid-layout cols-2">
+                <div class="card list-card">
+                    <h3 style="color: var(--accent-blue);">Applications</h3>
+                    <ul>
+                        <li><strong>Security Systems:</strong> Used in surveillance cameras and smart security systems.</li>
+                        <li><strong>Smartphone Face Unlock:</strong> Used in mobile devices for biometric authentication.</li>
+                        <li><strong>Attendance Systems:</strong> Automated attendance tracking in schools and offices.</li>
+                        <li><strong>Smart Cameras:</strong> AI-powered cameras use face detection for autofocus and tracking.</li>
+                        <li><strong>Social Media Filters:</strong> Apps like Snapchat and Instagram use face detection for filters.</li>
+                    </ul>
+                </div>
+                <div class="card list-card">
+                    <h3 style="color: var(--accent-blue);">Benefits</h3>
+                    <ul>
+                        <li>Real-time face detection</li>
+                        <li>Fast and efficient processing</li>
+                        <li>Open-source technology</li>
+                        <li>Easy to implement</li>
+                        <li>Supports AI and automation applications</li>
+                        <li>Improves security systems</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Challenges -->
+        <section id="challenges" class="section">
+            <h2 class="section-title">9. Challenges Faced</h2>
+            <div class="card warning-card">
+                <div class="challenge-item">
+                    <h4>Lighting Problems</h4>
+                    <p>Poor lighting reduces detection accuracy.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>Webcam Permission Errors</h4>
+                    <p>Sometimes camera access is blocked by the operating system.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>False Detections</h4>
+                    <p>Objects similar to facial patterns may be detected incorrectly.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>Performance Issues</h4>
+                    <p>Older systems may process video slowly.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>Multiple Face Detection</h4>
+                    <p>Processing multiple faces simultaneously can reduce speed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Technology Awareness -->
+        <section id="trends" class="section">
+            <h2 class="section-title">10. Technology Awareness / Future Scope</h2>
+            <div class="card highlight-card">
+                <p>Face detection technology is rapidly growing with advancements in Artificial Intelligence and Deep Learning.</p>
+                <div class="grid-layout cols-2" style="margin-top: 1.5rem;">
+                    <div>
+                        <h4 style="color: var(--accent-blue);">Current Trends</h4>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>AI-based face recognition systems</li>
+                            <li>Emotion detection technology</li>
+                            <li>Smart surveillance systems</li>
+                            <li>Facial authentication in banking apps</li>
+                            <li>AI-powered attendance systems</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-blue);">Future Scope</h4>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>Deep Learning Integration:</strong> Using CNN and AI models for higher accuracy.</li>
+                            <li><strong>3D Face Detection:</strong> Advanced face mapping for AR and VR systems.</li>
+                            <li><strong>Emotion Recognition:</strong> Detecting emotions such as happiness, sadness, and anger.</li>
+                            <li><strong>Mask Detection Systems:</strong> Used in healthcare and public monitoring.</li>
+                            <li><strong>AI Surveillance:</strong> Automatic monitoring and suspicious activity detection.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1.5rem;">Face detection is becoming an essential technology in security, healthcare, robotics, and smart devices.</p>
+            </div>
+        </section>
+        
+        <!-- 11. Conclusion -->
+        <section id="conclusion" class="section">
+            <h2 class="section-title">11. Conclusion</h2>
+            <div class="card">
+                <p>This project successfully implemented a real-time Face Detection System using Python and OpenCV. The application detects and tracks human faces using the Haar Cascade algorithm and webcam input.</p>
+                <p>The project improved understanding of:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem; margin-bottom: 1.5rem;">
+                    <li>Computer Vision</li>
+                    <li>Artificial Intelligence</li>
+                    <li>Image Processing</li>
+                    <li>OpenCV Library</li>
+                    <li>Real-Time Video Analysis</li>
+                </ul>
+                <p>This project demonstrates how AI and computer vision technologies can be applied in real-world applications such as security systems, smart devices, and biometric authentication.</p>
+            </div>
+        </section>
+
+        <!-- 12. References -->
+        <section id="references" class="section">
+            <h2 class="section-title">12. References and Learning Resources</h2>
+            <div class="card">
+                <ul class="reference-list">
+                    <li><a href="https://opencv.org/" target="_blank">OpenCV Official Website</a></li>
+                    <li><a href="https://docs.opencv.org/" target="_blank">OpenCV Documentation</a></li>
+                    <li><a href="https://docs.python.org/3/" target="_blank">Python Documentation</a></li>
+                    <li><a href="https://www.w3schools.com/python/" target="_blank">W3Schools Python Tutorial</a></li>
+                    <li><a href="https://github.com/opencv/opencv" target="_blank">OpenCV GitHub Repository</a></li>
+                </ul>
             </div>
         </section>
     </main>
